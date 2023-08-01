@@ -213,6 +213,7 @@ func (c *Controller) handleAddOvnEip(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	if cachedEip.Status.MacAddress != "" {
@@ -276,6 +277,7 @@ func (c *Controller) handleUpdateOvnEip(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	klog.V(3).Infof("handle update ovn eip %s", cachedEip.Name)
@@ -311,6 +313,7 @@ func (c *Controller) handleResetOvnEip(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	if !cachedEip.DeletionTimestamp.IsZero() {
@@ -396,6 +399,7 @@ func (c *Controller) createOrUpdateCrdOvnEip(key, subnet, v4ip, v6ip, mac, usage
 			}, metav1.CreateOptions{})
 			if err != nil {
 				err := fmt.Errorf("failed to create crd ovn eip '%s', %v", key, err)
+				klog.Error(err)
 				return err
 			}
 			// wait local cache ready
@@ -566,6 +570,7 @@ func (c *Controller) natLabelAndAnnoOvnEip(eipName, natName, vpcName string) err
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	eip := cachedEip.DeepCopy()

@@ -176,6 +176,7 @@ func (c *Controller) handleAddOvnSnatRule(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	if cachedSnat.Status.Ready && cachedSnat.Status.V4IpCidr != "" {
@@ -271,6 +272,7 @@ func (c *Controller) handleUpdateOvnSnatRule(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	klog.V(3).Infof("handle update ovn snat %s", key)
@@ -427,6 +429,7 @@ func (c *Controller) patchOvnSnatStatus(key, vpc, v4Eip, v4IpCidr string, ready 
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	snat := oriSnat.DeepCopy()
@@ -464,6 +467,7 @@ func (c *Controller) patchOvnSnatAnnotation(key, eipName string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	snat := oriFip.DeepCopy()

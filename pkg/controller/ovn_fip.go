@@ -180,6 +180,7 @@ func (c *Controller) handleAddOvnFip(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	if cachedFip.Status.Ready && cachedFip.Status.V4Ip != "" {
@@ -387,6 +388,7 @@ func (c *Controller) handleDelOvnFip(key string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	eipName := cachedFip.Spec.OvnEip
@@ -469,6 +471,7 @@ func (c *Controller) patchOvnFipAnnotations(key, eipName string) error {
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	fip := oriFip.DeepCopy()
@@ -505,6 +508,7 @@ func (c *Controller) patchOvnFipStatus(key, vpcName, v4Eip, podIp, podMac string
 		if k8serrors.IsNotFound(err) {
 			return nil
 		}
+		klog.Error(err)
 		return err
 	}
 	fip := oriFip.DeepCopy()
@@ -526,6 +530,7 @@ func (c *Controller) patchOvnFipStatus(key, vpcName, v4Eip, podIp, podMac string
 	if changed {
 		bytes, err := fip.Status.Bytes()
 		if err != nil {
+			klog.Error(err)
 			return err
 		}
 		if _, err = c.config.KubeOvnClient.KubeovnV1().OvnFips().Patch(context.Background(), fip.Name,
